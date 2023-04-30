@@ -16,4 +16,7 @@ int main(){
 
     SerialRadix serialRadix(smallTestNums);
     serialRadix.printData();
+
+    serialRadix.radixSort();
+    serialRadix.printData();
 }
