@@ -19,7 +19,10 @@ public:
     void printData();
 
     // entry point into the serial radix sort
-   void radixSort();
+    void radixSort();
+
+    // generates a sorted list of ints
+    std::vector<int> getSortedList();
 
 private:
 
@@ -43,7 +46,6 @@ private:
         int m_digit_count;
     };
 
-    std::vector<std::deque<Integer> > m_buckets;
     std::vector<Integer> m_integers;
 };
 

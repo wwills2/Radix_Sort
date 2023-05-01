@@ -26,6 +26,7 @@ void SerialRadix::printData() {
         }
         std::cout << std::endl;
     }
+    std::cout << std::endl;
 }
 
 // entry point into the serial radix sort
@@ -36,8 +37,16 @@ void SerialRadix::radixSort(){
     const int digitCount = m_integers[0].getDigitCount();
     int digitValue; //used in loop
 
-    // look at all digits in each number. 'i' is the digit location
-    for (int i = 0; i < digitCount; i++){
+    // look at all digits in each number. 'i' is the digit location. digits in ascending order, loop in reverse
+    for (int i = digitCount - 1; i >= 0; i--){
+
+        std::vector<std::deque<Integer> > buckets;
+        //populate m_buckets with queues
+        for (int i = 0; i < 10; i++){
+
+            std::deque<Integer> bucket;
+            buckets.push_back(bucket);
+        }
 
         // loop over all numbers in list
         for (Integer numToSort : m_integers){
@@ -45,20 +54,31 @@ void SerialRadix::radixSort(){
             digitValue = numToSort.m_digits[i];
 
             //place number in bucket based on digit value
-            m_buckets[digitValue].push_back(numToSort);
+            buckets[digitValue].push_back(numToSort);
+        }
+
+        int index = 0;
+
+        // empty buckets back into sorted list
+        for (std::deque<Integer> bucket : buckets){
+
+            while (!bucket.empty()){
+                m_integers[index] = bucket.front();
+                bucket.pop_front();
+                index++;
+            }
         }
     }
+}
 
-    int index = 0;
-    // empty m_buckets back into sorted list
-    for (std::deque<Integer> bucket : m_buckets){
+std::vector<int> SerialRadix::getSortedList() {
+    std::vector<int> sortedList(m_integers.size());
 
-        while (!bucket.empty()){
-            m_integers[index] = bucket.front();
-            bucket.pop_front();
-            index++;
-        }
+    for (int & i : sortedList){
+        i = m_integers[i].getNumber();
     }
+
+    return sortedList;
 }
 
 // Integer Class functions ---------------------------------------------------------------------------------------------
