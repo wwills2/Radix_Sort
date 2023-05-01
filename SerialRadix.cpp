@@ -21,7 +21,7 @@ SerialRadix::SerialRadix(std::vector<int> &inputData){
 // prints the values of m_integers and their digits vector
 void SerialRadix::printData() {
 
-    for (Integer _int: m_integers){
+    for (const Integer& _int: m_integers){
         std::cout << _int.getNumber() << " :: digits = ";
         for (int digit : _int.m_digits){
             std::cout << digit << " ";
@@ -116,10 +116,10 @@ SerialRadix::Integer::Integer(int &inputNum) {
 }
 
 //getter for private m_number
-int SerialRadix::Integer::getNumber() {
+int SerialRadix::Integer::getNumber() const{
     return m_number;
 }
 
-int SerialRadix::Integer::getDigitCount() {
+int SerialRadix::Integer::getDigitCount() const{
     return m_digit_count;
 }

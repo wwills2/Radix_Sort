@@ -33,10 +33,10 @@ private:
         explicit Integer(int &number);
 
         //getter for private m_number
-        int getNumber();
+        int getNumber() const;
 
         //getter for m_digit_count
-        int getDigitCount();
+        int getDigitCount() const;
 
         std::vector<int> m_digits;
 
