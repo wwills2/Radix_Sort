@@ -12,7 +12,7 @@ SerialRadix::SerialRadix(std::vector<int> &inputData){
     m_sortedList = std::vector<int>(inputData.size());
 
     // create vector of integer objects representing each integer in the input data
-    for (int num : inputData){
+    for (int &num : inputData){
         Integer currInt(num);
         m_integers.push_back(currInt);
     }
@@ -21,9 +21,9 @@ SerialRadix::SerialRadix(std::vector<int> &inputData){
 // prints the values of m_integers and their digits vector
 void SerialRadix::printData() {
 
-    for (const Integer& _int: m_integers){
+    for (Integer &_int: m_integers){
         std::cout << _int.getNumber() << " :: digits = ";
-        for (int digit : _int.m_digits){
+        for (int &digit : _int.m_digits){
             std::cout << digit << " ";
         }
         std::cout << std::endl;
@@ -36,19 +36,19 @@ void SerialRadix::radixSort(){
 
     //todo: add support for numbers of varying lengths
 
+    std::vector<std::deque<Integer> > buckets;
+    //populate m_buckets with queues
+    for (int j = 0; j < 10; j++){
+
+        std::deque<Integer> bucket;
+        buckets.push_back(bucket);
+    }
+
     const int digitCount = m_integers[0].getDigitCount();
     int digitValue; //used in loop
 
     // look at all digits in each number. 'i' is the digit location. digits in ascending order, loop in reverse
     for (int i = digitCount - 1; i >= 0; i--){
-
-        std::vector<std::deque<Integer> > buckets;
-        //populate m_buckets with queues
-        for (int j = 0; j < 10; j++){
-
-            std::deque<Integer> bucket;
-            buckets.push_back(bucket);
-        }
 
         // loop over all numbers in list
         for (Integer numToSort : m_integers){
@@ -62,7 +62,7 @@ void SerialRadix::radixSort(){
         int index = 0;
 
         // empty buckets back into sorted list
-        for (std::deque<Integer> bucket : buckets){
+        for (std::deque<Integer> &bucket : buckets){
 
             while (!bucket.empty()){
                 m_integers[index] = bucket.front();
