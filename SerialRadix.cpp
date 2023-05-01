@@ -9,6 +9,8 @@
 // overloaded SerialRadix Constructor, takes in a vector of integer values
 SerialRadix::SerialRadix(std::vector<int> &inputData){
 
+    m_sortedList = std::vector<int>(inputData.size());
+
     // create vector of integer objects representing each integer in the input data
     for (int num : inputData){
         Integer currInt(num);
@@ -42,7 +44,7 @@ void SerialRadix::radixSort(){
 
         std::vector<std::deque<Integer> > buckets;
         //populate m_buckets with queues
-        for (int i = 0; i < 10; i++){
+        for (int j = 0; j < 10; j++){
 
             std::deque<Integer> bucket;
             buckets.push_back(bucket);
@@ -65,6 +67,12 @@ void SerialRadix::radixSort(){
             while (!bucket.empty()){
                 m_integers[index] = bucket.front();
                 bucket.pop_front();
+
+                // if this is last digit to sort, place into sorted list when pulled from bucket
+                if (!i){
+                    m_sortedList[index] = m_integers[index].getNumber();
+                }
+
                 index++;
             }
         }
@@ -72,13 +80,7 @@ void SerialRadix::radixSort(){
 }
 
 std::vector<int> SerialRadix::getSortedList() {
-    std::vector<int> sortedList(m_integers.size());
-
-    for (int & i : sortedList){
-        i = m_integers[i].getNumber();
-    }
-
-    return sortedList;
+    return m_sortedList;
 }
 
 // Integer Class functions ---------------------------------------------------------------------------------------------

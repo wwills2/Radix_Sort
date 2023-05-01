@@ -46,6 +46,7 @@ private:
         int m_digit_count;
     };
 
+    std::vector<int> m_sortedList;
     std::vector<Integer> m_integers;
 };
 
