@@ -8,7 +8,6 @@
 #include <vector>
 #include <iostream>
 #include <stack>
-#include <error.h>
 #include <cmath>
 
 class SerialRadix {

@@ -30,7 +30,9 @@ void SerialRadix::radixSort(std::vector<int> &list){
     }
 
     const int digitCount = getDigitCount(list[0]);
-    int digitValue; //used in loop
+
+    //used in loop
+    int index;
 
     // look at all digits in each number. 'i' is the digit location. digits in ascending order, loop in reverse
     for (int i = 0; i < digitCount; i++){
@@ -38,13 +40,11 @@ void SerialRadix::radixSort(std::vector<int> &list){
         // loop over all numbers in list
         for (int &currNum: list){
 
-            digitValue = getDigit(currNum, i);
-
             //place number in bucket based on digit value
-            buckets[digitValue].push_back(currNum);
+            buckets[getDigit(currNum, i)].push_back(currNum);
         }
 
-        int index = 0;
+        index = 0;
 
         // empty buckets back into sorted list
         for (std::deque<int> &bucket : buckets){
@@ -60,16 +60,11 @@ void SerialRadix::radixSort(std::vector<int> &list){
 
 int SerialRadix::getDigit(const int &num, const int &index){
 
-    if (index < 0){
-        throw std::invalid_argument( "received negative digit index value" );
-    }
-
     int tempNum = num;
-    int digit;
-    tempNum /= (int) std::pow(10, index);
-    digit = tempNum % 10;
 
-    return digit;
+    // divide by 10^(index_value), then get remainder of an additional divide by 10
+    tempNum /= (int) std::pow(10, index);
+    return tempNum % 10;
 }
 
 int SerialRadix::getDigitCount(const int &num){
@@ -77,7 +72,7 @@ int SerialRadix::getDigitCount(const int &num){
     int tempNum = num;
     int digitCount = 0;
 
-    // push digits of number into stack in reverse order
+    // loop over all digits and get count
     bool parseNum = true;
     while(parseNum){
 
@@ -91,36 +86,3 @@ int SerialRadix::getDigitCount(const int &num){
 
     return digitCount;
 }
-
-/* todo: remove
-//overloaded Integer Subclass constructor
-SerialRadix::Integer::Integer(int &inputNum) {
-
-    num = inputNum;
-    int tempNum = num;
-    int currDigit = 1;
-    std::stack<int> tempStack;
-
-    // push digits of number into stack in reverse order
-    bool parseNum = true;
-    while(parseNum){
-
-        currDigit = tempNum % 10;
-        tempStack.push(currDigit);
-        tempNum = tempNum / 10;
-
-        if (tempNum <= 0){
-            parseNum = false;
-        }
-    }
-
-    // unload stack into m_digits vector
-    while(!tempStack.empty()){
-        m_digits.push_back(tempStack.top());
-        tempStack.pop();
-    }
-
-    m_digit_count = (int) m_digits.size();
-}
- */
-

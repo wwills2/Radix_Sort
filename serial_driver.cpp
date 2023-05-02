@@ -99,7 +99,7 @@ int main(){
         prevVal = i;
     }
 
-    testSize = 50000000;
+    testSize = 100000000;
     std::cout << std::endl << "+++ " << testSize << " size unit test +++" << std::endl;
 
     std::cout << std::endl << "building random vector ->" << std::endl;
@@ -110,7 +110,7 @@ int main(){
 
     SerialRadix::radixSort(list);
 
-    std::cout << "validating sort: ";
+    std::cout << "validating sort ->" << std::endl;
 
     //validate sort
     prevVal = 0;
