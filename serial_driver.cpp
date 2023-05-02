@@ -64,13 +64,13 @@ int main(){
 
     std::cout << std::endl << "+++ small list smoke test +++" << std::endl;
     std::vector<int> smallTestNums = {123, 456, 789, 234, 567, 890};
-    for (int num : smallTestNums){
-        std::cout << num << " ";
-    }
-    std::cout << std::endl;
 
+    std::cout << std::endl << "list prior to sorting:" << std::endl;
     SerialRadix::printList(smallTestNums);
+
     SerialRadix::radixSort(smallTestNums);
+
+    std::cout << std::endl << "sorted list:" << std::endl;
     SerialRadix::printList(smallTestNums);
 
 
