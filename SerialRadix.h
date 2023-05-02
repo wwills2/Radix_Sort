@@ -8,46 +8,21 @@
 #include <vector>
 #include <iostream>
 #include <stack>
+#include <error.h>
 
 class SerialRadix {
 public:
-
-    // overloaded SerialRadix Constructor, takes in a vector of integer values
-    explicit SerialRadix(std::vector<int> &);
-
     // prints the values of m_integers and their digits vector
-    void printData();
+    static void printList(std::vector<int> &list);
 
     // entry point into the serial radix sort
-    void radixSort();
-
-    // generates a sorted list of ints
-    std::vector<int> getSortedList();
+    static void radixSort(std::vector<int> & list);
 
 private:
 
-    class Integer{
-    public:
+    static int getDigit(const int &num, const int &index);
 
-        //overloaded Integer Subclass constructor
-        explicit Integer(int &number);
-
-        //getter for private m_number
-        int getNumber() const;
-
-        //getter for m_digit_count
-        int getDigitCount() const;
-
-        std::vector<int> m_digits;
-
-    private:
-
-        int m_number;
-        int m_digit_count;
-    };
-
-    std::vector<int> m_sortedList;
-    std::vector<Integer> m_integers;
+    static int getDigitCount(const int &num);
 };
 
 

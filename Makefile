@@ -1,5 +1,5 @@
 CC=g++
-CFLAGS_SERIAL= -Wall -g3 -pedantic -std=c++14
+CFLAGS_SERIAL= -Wall -O3 -pedantic -std=c++14
 
 all: serial_radix
 

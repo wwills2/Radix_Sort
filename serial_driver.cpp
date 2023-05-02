@@ -69,11 +69,9 @@ int main(){
     }
     std::cout << std::endl;
 
-    SerialRadix serialRadix(smallTestNums);
-    serialRadix.printData();
-
-    serialRadix.radixSort();
-    serialRadix.printData();
+    SerialRadix::printList(smallTestNums);
+    SerialRadix::radixSort(smallTestNums);
+    SerialRadix::printList(smallTestNums);
 
 
     std::cout << std::endl << "+++ 50 size unit test +++" << std::endl;
@@ -83,21 +81,14 @@ int main(){
     std::vector<int> list(testSize);
     rand.buildRandomVector(list);
 
-    for (int num : list){
-        std::cout << num << " ";
-    }
-    std::cout << std::endl;
+    std::cout << std::endl << "list prior to sorting:" << std::endl;
+    SerialRadix::printList(list);
 
-    // construct a sort object - list remains unchanged
-    serialRadix = SerialRadix(list);
-    serialRadix.printData();
+    // sort the data
+    SerialRadix::radixSort(list);
 
-    // sort the data internally
-    serialRadix.radixSort();
-    serialRadix.printData();
-
-    // retrieve sorted list
-    list = serialRadix.getSortedList();
+    std::cout << std::endl << "sorted list:" << std::endl;
+    SerialRadix::printList(list);
 
     //validate sort
     int prevVal = 0;
@@ -109,21 +100,16 @@ int main(){
     }
 
 
-    testSize = 5000000;
+    testSize = 50000000;
     std::cout << std::endl << "+++ " << testSize << " size unit test +++" << std::endl;
 
     std::cout << std::endl << "building random vector ->" << std::endl;
     list = std::vector<int>(testSize);
     rand.buildRandomVector(list);
 
-    std::cout << "processing list -> " << std::endl;
-    serialRadix = SerialRadix(list);
-
     std::cout << "sorting list -> " << std::endl;
-    serialRadix.radixSort();
 
-    std::cout << "copying to output buffer -> " << std::endl;
-    list = serialRadix.getSortedList();
+    SerialRadix::radixSort(list);
 
     std::cout << "validating sort: ";
 

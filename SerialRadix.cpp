@@ -4,92 +4,100 @@
 
 #include "SerialRadix.h"
 
-// SerialRadix Class functions -----------------------------------------------------------------------------------------
-
-// overloaded SerialRadix Constructor, takes in a vector of integer values
-SerialRadix::SerialRadix(std::vector<int> &inputData){
-
-    m_sortedList = std::vector<int>(inputData.size());
-
-    // create vector of integer objects representing each integer in the input data
-    for (int &num : inputData){
-        Integer currInt(num);
-        m_integers.push_back(currInt);
-    }
-}
-
 // prints the values of m_integers and their digits vector
-void SerialRadix::printData() {
+void SerialRadix::printList(std::vector<int> &list) {
 
-    for (Integer &_int: m_integers){
-        std::cout << _int.getNumber() << " :: digits = ";
-        for (int &digit : _int.m_digits){
-            std::cout << digit << " ";
+    for (int i = 0; i < (int) list.size(); i++){
+        std::cout << list[i] << " ";
+        if (i % 15 == 0){
+            std::cout << std::endl;
         }
-        std::cout << std::endl;
     }
     std::cout << std::endl;
 }
 
 // entry point into the serial radix sort
-void SerialRadix::radixSort(){
+void SerialRadix::radixSort(std::vector<int> & list){
 
     //todo: add support for numbers of varying lengths
 
-    std::vector<std::deque<Integer> > buckets;
+    std::vector<std::deque<int> > buckets;
     //populate m_buckets with queues
     for (int j = 0; j < 10; j++){
 
-        std::deque<Integer> bucket;
+        std::deque<int> bucket;
         buckets.push_back(bucket);
     }
 
-    const int digitCount = m_integers[0].getDigitCount();
+    const int digitCount = getDigitCount(list[0]);
     int digitValue; //used in loop
 
     // look at all digits in each number. 'i' is the digit location. digits in ascending order, loop in reverse
     for (int i = digitCount - 1; i >= 0; i--){
 
         // loop over all numbers in list
-        for (Integer numToSort : m_integers){
+        for (int &currNum: list){
 
-            digitValue = numToSort.m_digits[i];
+            digitValue = getDigit(currNum, i);
 
             //place number in bucket based on digit value
-            buckets[digitValue].push_back(numToSort);
+            buckets[digitValue].push_back(currNum);
         }
 
         int index = 0;
 
         // empty buckets back into sorted list
-        for (std::deque<Integer> &bucket : buckets){
+        for (std::deque<int> &bucket : buckets){
 
             while (!bucket.empty()){
-                m_integers[index] = bucket.front();
+                list[index] = bucket.front();
                 bucket.pop_front();
-
-                // if this is last digit to sort, place into sorted list when pulled from bucket
-                if (!i){
-                    m_sortedList[index] = m_integers[index].getNumber();
-                }
-
                 index++;
             }
         }
     }
 }
 
-std::vector<int> SerialRadix::getSortedList() {
-    return m_sortedList;
+int SerialRadix::getDigit(const int &num, const int &index){
+
+    if (index < 0){
+        throw std::invalid_argument( "received negative digit index value" );
+    }
+
+    int tempNum = num;
+    int digit;
+    tempNum /= 10 * index;
+    digit = tempNum % 10;
+
+    return digit;
 }
 
-// Integer Class functions ---------------------------------------------------------------------------------------------
+int SerialRadix::getDigitCount(const int &num){
 
+    int tempNum = num;
+    int digitCount = 0;
+
+    // push digits of number into stack in reverse order
+    bool parseNum = true;
+    while(parseNum){
+
+        tempNum = tempNum / 10;
+        digitCount++;
+
+        if (tempNum <= 0){
+            parseNum = false;
+        }
+    }
+
+    return digitCount;
+}
+
+/* todo: remove
 //overloaded Integer Subclass constructor
 SerialRadix::Integer::Integer(int &inputNum) {
 
-    m_number = inputNum;
-    int tempNum = m_number;
+    num = inputNum;
+    int tempNum = num;
     int currDigit = 1;
     std::stack<int> tempStack;
 
@@ -114,12 +122,5 @@ SerialRadix::Integer::Integer(int &inputNum) {
 
     m_digit_count = (int) m_digits.size();
 }
+ */
 
-//getter for private m_number
-int SerialRadix::Integer::getNumber() const{
-    return m_number;
-}
-
-int SerialRadix::Integer::getDigitCount() const{
-    return m_digit_count;
-}
