@@ -99,7 +99,6 @@ int main(){
         prevVal = i;
     }
 
-
     testSize = 50000000;
     std::cout << std::endl << "+++ " << testSize << " size unit test +++" << std::endl;
 

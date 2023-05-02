@@ -8,16 +8,16 @@
 void SerialRadix::printList(std::vector<int> &list) {
 
     for (int i = 0; i < (int) list.size(); i++){
-        std::cout << list[i] << " ";
         if (i % 15 == 0){
             std::cout << std::endl;
         }
+        std::cout << list[i] << " ";
     }
     std::cout << std::endl;
 }
 
 // entry point into the serial radix sort
-void SerialRadix::radixSort(std::vector<int> & list){
+void SerialRadix::radixSort(std::vector<int> &list){
 
     //todo: add support for numbers of varying lengths
 
@@ -33,7 +33,7 @@ void SerialRadix::radixSort(std::vector<int> & list){
     int digitValue; //used in loop
 
     // look at all digits in each number. 'i' is the digit location. digits in ascending order, loop in reverse
-    for (int i = digitCount - 1; i >= 0; i--){
+    for (int i = 0; i < digitCount; i++){
 
         // loop over all numbers in list
         for (int &currNum: list){
@@ -66,7 +66,7 @@ int SerialRadix::getDigit(const int &num, const int &index){
 
     int tempNum = num;
     int digit;
-    tempNum /= 10 * index;
+    tempNum /= (int) std::pow(10, index);
     digit = tempNum % 10;
 
     return digit;

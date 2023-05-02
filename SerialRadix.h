@@ -9,6 +9,7 @@
 #include <iostream>
 #include <stack>
 #include <error.h>
+#include <cmath>
 
 class SerialRadix {
 public:
@@ -16,7 +17,7 @@ public:
     static void printList(std::vector<int> &list);
 
     // entry point into the serial radix sort
-    static void radixSort(std::vector<int> & list);
+    static void radixSort(std::vector<int> &list);
 
 private:
 
