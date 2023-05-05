@@ -6,6 +6,7 @@
 #include <random>
 
 #include "SerialRadix.h"
+#include "timer.c"
 
 enum RANDOM {UNIFORM, NORMAL};
 class Random {
@@ -62,6 +63,11 @@ private:
 
 int main(){
 
+    const int MIN = 10000000;
+    const int MAX = 99999999;
+    Random rand(MIN, MAX);
+
+
     std::cout << std::endl << "+++ small list smoke test +++" << std::endl;
     std::vector<int> smallTestNums = {123, 456, 789, 234, 567, 890};
 
@@ -75,7 +81,6 @@ int main(){
 
 
     std::cout << std::endl << "+++ 50 size unit test +++" << std::endl;
-    Random rand(10000, 99999);
 
     int testSize = 50;
     std::vector<int> list(testSize);
@@ -99,7 +104,8 @@ int main(){
         prevVal = i;
     }
 
-    testSize = 100000000;
+    double start, stop, elapsed;
+    testSize = 500000000;
     std::cout << std::endl << "+++ " << testSize << " size unit test +++" << std::endl;
 
     std::cout << std::endl << "building random vector ->" << std::endl;
@@ -108,7 +114,10 @@ int main(){
 
     std::cout << "sorting list -> " << std::endl;
 
+    GET_TIME(start)
     SerialRadix::radixSort(list);
+    GET_TIME(stop)
+    elapsed = stop - start;
 
     std::cout << "validating sort ->" << std::endl;
 
@@ -123,4 +132,5 @@ int main(){
     }
 
     std::cout << "VALIDATED" << std::endl;
+    std::cout << std::endl << "RUNTIME: " << elapsed << " seconds" << std::endl;
 }
